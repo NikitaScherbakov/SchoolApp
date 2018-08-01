@@ -1,0 +1,166 @@
+﻿@model SchoolApp.ViewModels.TeacherIndexData
+
+<h2>Teachers</h2>
+
+<div id="modDialog" class="modal fade">
+    <div id="dialogContent" class="modal-dialog"></div>
+</div>
+<div class="container" style="margin-top:3%">
+    <p>
+        @Html.ActionLink("Create New", "Create", null, new { @class = "btn btn-info" })
+    </p>
+    <table class="table">
+        <tr>
+            <th>Last Name</th>
+            <th>First Name</th>
+            <th>Hire Date</th>
+            <th>Office</th>
+            <th>Courses</th>
+            <th>Gender</th>
+            <th>Director</th>
+            <th>HeadTeacher</th>
+            <th>Select</th>
+            <th>Edit</th>
+            <th>Details</th>
+            <th>Delete</th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model.Teachers)
+        {
+            string selectedRow = "";
+            if (item.ID == ViewBag.TeacherID)
+            {
+                selectedRow = "success";
+            }
+        <tr class="@selectedRow" valign="top">
+            <td>
+                @Html.DisplayFor(modelItem => item.LastName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FirstName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.HireDate)
+            </td>
+            <td>
+                @if (item.OfficeAssignment != null)
+                {
+                    @item.OfficeAssignment.Location
+                }
+            </td>
+            <td>
+                @{
+                    foreach (var course in item.Courses)
+                    {
+                        @course.Title <br />
+                    }
+                }
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Gender)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Director)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.HeadTeacher)
+            </td>
+            <td>
+                @Html.ActionLink("Select", "Index", new { id = item.ID }, new { @class = "btn btn-warning btn-large" })
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.ID }, new { @class = "item btn btn-primary btn-large" })
+            </td>
+            <td>
+                @Html.ActionLink("Details", "Details", new { id = item.ID }, new { @class = "item btn btn-info btn-large" })
+            </td>
+            <td>
+                @Html.ActionLink("Delete", "Delete", new { id = item.ID }, new { @class = "item btn btn-danger btn-large" })
+            </td>
+
+        </tr>
+        }
+
+    </table>
+</div>
+
+@if (Model.Courses != null)
+{
+    <h3>Courses Taught by Selected Teacher</h3>
+    <table class="table">
+        <tr>
+            <th></th>
+            <th>Number</th>
+            <th>Title</th>
+            <th>Department</th>
+        </tr>
+
+        @foreach (var item in Model.Courses)
+        {
+            string selectedRow = "";
+            if (item.CourseID == ViewBag.CourseID)
+            {
+                selectedRow = "success";
+            }
+            <tr class="@selectedRow">
+                <td>
+                    @Html.ActionLink("Select", "Index", new { courseID = item.CourseID }, new { @class = "btn btn-warning btn-large" })
+                </td>
+                <td>
+                    @item.CourseID
+                </td>
+                <td>
+                    @item.Title
+                </td>
+                <td>
+                    @item.Department.Name
+                </td>
+            </tr>
+        }
+
+    </table>
+}
+
+@if (Model.Classs != null)
+{
+    <h3>
+        Students Enrolled in Selected Course
+    </h3>
+    <table class="table">
+        <tr>
+            <th>Name</th>
+            <th>Grade</th>
+        </tr>
+        @foreach (var item in Model.Classs)
+        {
+            <tr>
+                <td>
+                    @item.Student.FullName
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Grade)
+                </td>
+            </tr>
+        }
+    </table>
+}
+
+@section scripts
+{
+    <script type="text/javascript">
+
+        $(function () {
+            $.ajaxSetup({ cache: false });
+            $(".item").click(function (e) {
+
+                e.preventDefault();
+                $.get(this.href, function (data) {
+                    $('#dialogContent').html(data);
+                    $('#modDialog').modal('show');
+                });
+            });
+        })
+    </script>
+}
+

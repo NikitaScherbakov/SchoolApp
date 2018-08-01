@@ -1,0 +1,45 @@
+﻿@model SchoolApp.Models.Department
+
+<div class="modal-content">
+    <div class="modal-header">
+        <button class="close" data-dismiss="modal" area-hidden="true">X</button>
+        <header>Department details</header>
+    </div>
+    <div class="modal-body">
+        <dl class="dl-horizontal">
+            <dt>
+                Administrator
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Administrator.LastName)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Name)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Name)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Budget)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Budget)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.StartDate)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.StartDate)
+            </dd>
+
+        </dl>
+    </div>
+</div>
+
